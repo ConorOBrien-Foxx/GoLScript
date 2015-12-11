@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<style>textarea{width:100%;height:120px;font-family:Consolas,monospace;}#put,#out{border: 1px solid #DDD;background:#EEE;font-family:"Consolas",monospace;min-height:1.2em;}#pr{font-family:Consolas,monospace;}.live{color:green}.dead{color:red}</style>
+<textarea id="gol" spellcheck="false"> #     #  
+  ##    ##
+##    ##  
+  #     # </textarea>
+<button id="bu">step</button><button id="ru">run</button><button id="re">reset stack</button><button id="in">add input:</button><input id="oe" type="text"><br><div id="out"></div><hr><div id="put"></div>
+<script>
+Array.prototype.pop = function(){try{r=this[this.length-1];this.length-=1;return r;}catch(e){return 0}}
+var t = document.getElementById("gol");
+function OUT(x){
+  var h=document.getElementById("put");
+  h.innerHTML += (h.innerHTML?"<br>":"") + x;
+}
+function isLive(x){
+  return x=="#"||x!=x.toLowerCase();
+}
+var stack = [];
+function upper(x){
+  return x==" "?"#":x.toUpperCase();
+}
+function lower(x){
+  return x=="#"?" ":x.toLowerCase();
+}
+var generation = 0;
+function step(){
+  var code = "";
+  var v = t.value.split("\n").map(function(x){return x.split("")});
+  var d = t.value.split("\n").map(function(x){return x.split("").map(function(e){if(e==upper(e))code+=e;return e})});
+  for(var i=0;i<v.length;i++){
+    for(var j=0;j<v[i].length;j++){
+      // get neighbours
+      var tR = v[i-1]||[];
+      var bR = v[i+1]||[];
+      var liveCells = [v[i][j-1],v[i][j+1],tR[j-1],tR[j],tR[j+1],bR[j-1],bR[j],bR[j+1]];
+      //console.log(v[i][j],liveCells);
+      liveCells = liveCells.reduce(function(y,x){return isLive(x||"")+y},0);
+      // eval code
+      var chr = v[i][j];
+      switch(chr){
+        case"A":stack.push(0);break;
+        case"B":stack.push(1);break;
+        case"C":stack.push(2);break;
+        case"D":stack.push(3);break;
+        case"E":stack.push(4);break;
+        case"F":stack.push(5);break;
+        case"G":stack.push(6);break;
+        case"H":stack.push(7);break;
+        case"I":stack.push(8);break;
+        case"J":stack.push(9);break;
+        case"K":stack.push(stack.pop()+stack.pop());break;
+        case"L":stack.push(-stack.pop()+stack.pop());break;
+        case"M":stack.push(stack.pop()*stack.pop());break;
+        case"N":stack.push(1/stack.pop()*stack.pop());break;
+        case"O":r=stack.pop();stack.push(stack.pop()%r);break;
+        case"P":r=stack.pop();if(r)liveCells=3;else liveCells=0;break;
+        case"Q":r=stack.pop();s=stack.pop();s.push(r,s);break;
+        case"R":r=stack.pop();stack.push(r,r);break;
+        case"S":c=stack.pop();y=stack.pop();x=stack.pop();d[y][x]=String.fromCharCode(c);break;
+        case"T":stack.reverse();break;
+        // fix
+        case"U":d=d.map(function(x){return x.map(function(){return " "})});liveCells=0;break;
+        case"V":r=stack.pop();if(r)liveCells=3;else liveCells=0;stack.push(r);break;
+        case"W":r=stack.pop();OUT(String.fromCharCode(r));break;
+        case"X":r=stack.pop();OUT(r);break;
+        case"Y":stack.push(generation);break;
+        case"Z":stack.push(v[stack.pop()][stack.pop()]||-1);break;
+      }
+      if(liveCells == 3) d[i][j] = upper(v[i][j]);
+      if(liveCells<2||liveCells>3) d[i][j] = lower(v[i][j]);
+    }
+  }
+  t.value = d.map(function(e){return e.join("")}).join("\n");
+
+  document.getElementById("out").innerHTML = code + "<br>" + JSON.stringify(stack);
+  generation++;
+}
+document.getElementById("bu").addEventListener("click",step);
+window.inter = -1;
+document.getElementById("ru").addEventListener("click",function(){
+  var x = this.innerHTML+"";
+  if(x=="stop"){
+    clearInterval(window.inter);
+    this.innerHTML = "run";
+  } else {
+    window.inter = setInterval(step,20);
+    this.innerHTML = "stop";
+  }
+});
+document.getElementById("re").addEventListener("click",function(){
+  stack = [];
+});
+document.getElementById("in").addEventListener("click",function(){
+  var inp=eval(document.getElementById("oe").value)||-1;
+  if(inp.charCodeAt) inp=inp.charCodeAt();
+  stack.push(inp);
+});
+</script>
+</html>
