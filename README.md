@@ -39,4 +39,5 @@ These appear in the form `Live symbol/dead symbol - effect`
  * `!`/`1` - Pops `x` and pushes a pseudorandom number in the interval `[0,x)`
  * `@`/`2` - Pops `x` and pushes `!x`.
  * `<`/`,` - Pops `b`, `a` and pushes `a < b`. (Equivalently, `b <= a`.)
+ * `^`/`6` - Pops `b`, `a` and pushes `a ^ b`.
  * `#`/` ` - NOP
