@@ -6,6 +6,8 @@ GoLScript runs in _generations_; this is a step. At the beginning of every step,
 
 Symbols on the program come in two states: live or dead. A symbol is _live_ if and only if it is an uppercase letter, or one of `@`, `!`, or `<`. A symbol is _dead_ otherwise. A symbol can shift its state from dead to live when it has precisely three neighbours. A cell goes from live to dead when it does not have two or three neighbours.
 
+The symbols `p` and `v` are also considered part of the evaluation.
+
 ## Commands
 These appear in the form `Live symbol/dead symbol - effect`
  * `A`/`a` - Push `0` to the stack.
@@ -23,3 +25,10 @@ These appear in the form `Live symbol/dead symbol - effect`
  * `M`/`m` - Pops `b`, `a`, and pushes `a*b`.
  * `N`/`n` - Pops `b`, `a`, and pushes `a/b`.
  * `O`/`o` - Pops `b`, `a`, and pushes `a%b`.
+ * `P`/`p` - Pops `r`; if `r` is truthy, set the current cell to `P`. Otherwise, set the current cell to `p`
+ * `Q`/`q` - Pops `b`, `a`, and pushes `b` then `a`. (Reverses top two elements of stack.)
+ * `R`/`r` - Duplicate top value of stack.
+ * `S`/`s` - Pops `c`, `y`, `x`, and sets the character at position `(x,y)` in the code to `charCode c`.
+ * `T`/`t` - Reverses the stack
+ * `U`/`u` - Clears the program. (Effectively terminates the program.)
+ * `V`/`v` - Equivalent to `P`, without popping
