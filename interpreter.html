@@ -11,7 +11,7 @@ Array.prototype.pop = function(){try{r=this[this.length-1];this.length-=1;return
 var t = document.getElementById("gol");
 function OUT(x){
   var h=document.getElementById("put");
-  h.innerHTML += (h.innerHTML?"<br>":"") + x;
+  h.innerHTML += x.replace(/\n/g,"<br>");
 }
 function isLive(x){
   return x!=lower(x);
