@@ -32,3 +32,11 @@ These appear in the form `Live symbol/dead symbol - effect`
  * `T`/`t` - Reverses the stack
  * `U`/`u` - Clears the program. (Effectively terminates the program.)
  * `V`/`v` - Equivalent to `P`, without popping
+ * `W`/`w` - Pops the top item on the stack and prints the character code of that item.
+ * `X`/`x` - Pops the top item on the stack and prints that item.
+ * `Y`/`y` - Pushes the number of generations the program has been alive for.
+ * `Z`/`z` - Pops `y`, `x`, and pushes the character at position `(x,y)`'s character code
+ * `!`/`1` - Pops `x` and pushes a pseudorandom number in the interval `[0,x)`
+ * `@`/`2` - Pops `x` and pushes `!x`.
+ * `<`/`,` - Pops `b`, `a` and pushes `a < b`. (Equivalently, `b <= a`.)
+ * `#`/` ` - NOP
