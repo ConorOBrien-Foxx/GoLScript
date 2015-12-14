@@ -14,14 +14,14 @@ function OUT(x){
   h.innerHTML += (h.innerHTML?"<br>":"") + x;
 }
 function isLive(x){
-  return x=="#"||x!=x.toLowerCase();
+  return x!=lower(x);
 }
 var stack = [];
 function upper(x){
-  return x==" "?"#":x.toUpperCase();
+  return x==" "?"#":x=="1"?"!":x.toUpperCase();
 }
 function lower(x){
-  return x=="#"?" ":x.toLowerCase();
+  return x=="#"?" ":x=="!"?"1":x.toLowerCase();
 }
 var generation = 0;
 function step(){
@@ -54,18 +54,22 @@ function step(){
         case"M":stack.push(stack.pop()*stack.pop());break;
         case"N":stack.push(1/stack.pop()*stack.pop());break;
         case"O":r=stack.pop();stack.push(stack.pop()%r);break;
-        case"P":r=stack.pop();if(r)liveCells=3;else liveCells=0;break;
+        case"p":case"P":r=stack.pop();if(r)liveCells=3;else liveCells=0;break;
         case"Q":r=stack.pop();s=stack.pop();s.push(r,s);break;
         case"R":r=stack.pop();stack.push(r,r);break;
         case"S":c=stack.pop();y=stack.pop();x=stack.pop();d[y][x]=String.fromCharCode(c);break;
         case"T":stack.reverse();break;
         // fix
         case"U":d=d.map(function(x){return x.map(function(){return " "})});liveCells=0;break;
-        case"V":r=stack.pop();if(r)liveCells=3;else liveCells=0;stack.push(r);break;
+        case"v":case"V":r=stack.pop();if(r)liveCells=3;else liveCells=0;stack.push(r);break;
         case"W":r=stack.pop();OUT(String.fromCharCode(r));break;
         case"X":r=stack.pop();OUT(r);break;
         case"Y":stack.push(generation);break;
         case"Z":stack.push(v[stack.pop()][stack.pop()]||-1);break;
+        case"!":stack.push(Math.random()*stack.pop()|0);break;
+        case"<":stack.push(stack.pop()>=stack.pop());break;
+        case"@":stack.push(!stack.pop());break;
+        
       }
       if(liveCells == 3) d[i][j] = upper(v[i][j]);
       if(liveCells<2||liveCells>3) d[i][j] = lower(v[i][j]);
