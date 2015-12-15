@@ -42,3 +42,6 @@ These appear in the form `Live symbol/dead symbol - effect`
  * `^`/`6` - Pops `b`, `a` and pushes `a ^ b`.
  * `(`/`9` - Pushes `10` to the stack.
  * `#`/` ` - NOP
+
+## Observations
+GoLScript (TBA)
