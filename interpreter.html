@@ -22,7 +22,7 @@ function upper(x){
   return x==" "?"#":x=="1"?"!":x=="2"?"@":x==","?"<":x=="6"?"^":x=="9"?"(":x.toUpperCase();
 }
 function lower(x){
-  return x=="#"?" ":x=="!"?"1":x=="@"?"2":x=="<"?",":x=="^"?"6":x=="("?"9":.toLowerCase();
+  return x=="#"?" ":x=="!"?"1":x=="@"?"2":x=="<"?",":x=="^"?"6":x=="("?"9":x.toLowerCase();
 }
 var generation = 0;
 function step(){
