@@ -129,7 +129,7 @@ function step(){
         case"W":r=stack.pop();OUT(String.fromCharCode(r));break;
         case"X":r=stack.pop();OUT(r);break;
         case"Y":stack.push(generation);break;
-        case"Z":stack.push(v[stack.pop()][stack.pop()]||-1);break;
+        case"Z":stack.push(((v[stack.pop()]||[])[stack.pop()]||"").charCodeAt()||-1);break;
         case"!":stack.push(Math.random()*stack.pop()|0);break;
         case"<":stack.push(stack.pop()>=stack.pop());break;
         case"@":stack.push(!stack.pop());break;
